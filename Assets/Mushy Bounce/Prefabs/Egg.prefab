@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 1571069389064665305}
   - component: {fileID: 3739916973737514697}
   - component: {fileID: 5537845232147345175}
-  - component: {fileID: 6813169322995403296}
   - component: {fileID: 7052255723008516035}
   - component: {fileID: 4373341426501762924}
   - component: {fileID: 7074726478759722026}
+  - component: {fileID: 750265120927572175}
   m_Layer: 0
   m_Name: Egg
   m_TagString: Untagged
@@ -122,21 +122,6 @@ PolygonCollider2D:
       - {x: 0.4632906, y: -0.35024548}
       - {x: 0.45596325, y: 0.17475456}
   m_UseDelaunayMesh: 1
---- !u!114 &6813169322995403296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4754888279239759543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3e7a1c8e8195184a809d77b1d99bcb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Egg
-  bounceVelocity: 10
-  collisionColor: {r: 0.015686274, g: 1, b: 0.15700766, a: 1}
-  flashDuration: 0.2
 --- !u!114 &7052255723008516035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +210,21 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
+--- !u!114 &750265120927572175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4754888279239759543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1153eb43720c65741b9fdbe1ff310114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Egg
+  bounceVelocity: 0
+  collisionColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  flashDuration: 0.2
 --- !u!1 &6122721734354081893
 GameObject:
   m_ObjectHideFlags: 0
