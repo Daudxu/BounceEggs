@@ -16,8 +16,8 @@ public class PlayerColorizer : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if (!IsServer && IsOwner) return;
-           ColorizeServerRpc(Color.red);
+        if ( !IsServer && IsOwner)
+            ColorizeServerRpc(Color.red);
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ public class PlayerColorizer : NetworkBehaviour
     [ServerRpc]
     private void ColorizeServerRpc(Color color)
     {
-        ColorizeClientRpc(Color.red);
+        ColorizeClientRpc(color);
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class PlayerColorizer : NetworkBehaviour
     [ClientRpc]
     private void ColorizeClientRpc(Color color)
     {
-        foreach (var renderer in renderers)
+        foreach (SpriteRenderer renderer in renderers)
         {
            renderer.color = color;
         }
