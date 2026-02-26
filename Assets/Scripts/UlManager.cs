@@ -11,6 +11,28 @@ public class UlManager : MonoBehaviour
     [SerializeField] private GameObject waitingPanel;   // 等待面板：连接中或等待其他玩家
     [SerializeField] private GameObject gamePanel;      // 游戏面板：主游戏界面
 
+
+    void Start()
+    {
+        ShowConnectionPanel();
+        GameManager.onGameStateChanged += GameStateChangedCallback;
+    }
+    
+    private void OnDestroy()
+    {
+        GameManager.onGameStateChanged -= GameStateChangedCallback;
+    }
+
+    private void GameStateChangedCallback(GameManager.State gameState)
+    {
+        switch (gameState)
+        {
+            case GameManager.State.Game:
+                ShowGamePanel();
+                break;
+        }
+    }
+
     /// <summary>
     /// 显示连接面板，隐藏其他面板。
     /// </summary>
