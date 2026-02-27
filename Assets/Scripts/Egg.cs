@@ -32,6 +32,7 @@ public class Egg : MonoBehaviour
         spriteRenderer = eggRenderer != null ? eggRenderer.GetComponent<SpriteRenderer>() : null;
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
+        isActive = true;   
     }
 
     void Update()
