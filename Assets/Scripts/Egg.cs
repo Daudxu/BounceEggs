@@ -37,10 +37,13 @@ public class Egg : MonoBehaviour
     /// </summary>
     private void OnCollisionEnter2D(Collision2D other)
     {
+        // 如果碰撞对象是 PlayerController，则反弹并闪色
         if (other.collider.TryGetComponent(out PlayerController playerController))
         {
+            // 如果 SpriteRenderer 不为空，则闪色
             if (spriteRenderer != null)
                 StartCoroutine(FlashColor());
+            // 反弹，沿碰撞法线方向反弹 根据bounceVelocity的速度反弹
             Bounce(other.GetContact(0).normal);
         }
     }
@@ -50,8 +53,11 @@ public class Egg : MonoBehaviour
     /// </summary>
     private IEnumerator FlashColor()
     {
+        // 短暂变色后恢复
         spriteRenderer.color = collisionColor;
+        // 等待 flashDuration 时间后恢复原始颜色    WaitForSeconds 是 Unity 引擎提供的等待时间类
         yield return new WaitForSeconds(flashDuration);
+        // 恢复原始颜色
         spriteRenderer.color = originalColor;
     }
 

@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1153eb43720c65741b9fdbe1ff310114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Egg
-  bounceVelocity: 0
+  bounceVelocity: 10
   collisionColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   flashDuration: 0.2
 --- !u!1 &6122721734354081893
