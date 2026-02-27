@@ -5825,8 +5825,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 754606142}
-  - component: {fileID: 754606144}
   - component: {fileID: 754606143}
+  - component: {fileID: 754606144}
   m_Layer: 0
   m_Name: Egg Manager
   m_TagString: Untagged
@@ -5883,7 +5883,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 754606141}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3e7a1c8e8195184a809d77b1d99bcb7, type: 3}
+  m_Script: {fileID: 11500000, guid: 15ada4ad13943b84199d28513a24c1e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EggManager
   ShowTopMostFoldoutHeaderGroup: 1
