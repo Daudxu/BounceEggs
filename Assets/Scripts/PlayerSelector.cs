@@ -2,7 +2,21 @@ using UnityEngine;
 using Unity.Netcode;
 public class PlayerSelector : NetworkBehaviour
 {
+    public static PlayerSelector instance;
     private bool isHostTurn;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -95,5 +109,10 @@ public class PlayerSelector : NetworkBehaviour
     {
         isHostTurn = !isHostTurn;
         Initialize();
+    }
+
+    public bool IsHostTurn()
+    {
+        return isHostTurn;
     }
 }

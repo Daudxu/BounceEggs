@@ -17,8 +17,10 @@ public class Egg : MonoBehaviour
      
     /// <summary>鸡蛋被击中时触发，用于切换玩家回合。</summary>
     public static event Action onHit;
+    public static event Action onFallInWater;
 
     private Rigidbody2D rig;
+    private bool isActive = true;
     private SpriteRenderer spriteRenderer;  // 子物体 "Egg Renderer" 上的 SpriteRenderer
     private Color originalColor;            // 原始颜色，用于闪色后恢复
 
@@ -64,6 +66,18 @@ public class Egg : MonoBehaviour
         yield return new WaitForSeconds(flashDuration);
         // 恢复原始颜色
         spriteRenderer.color = originalColor;
+    }
+
+    private void OnTriggerEnter2D(Collider2D Collider)
+    {
+         if(!isActive) return;
+         
+         if(Collider.CompareTag("Water"))
+         {
+            onFallInWater?.Invoke();
+            isActive = false;
+         }
+
     }
 
     /// <summary>
