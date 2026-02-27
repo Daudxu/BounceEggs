@@ -41,4 +41,6 @@ public class PlayerColorizer : NetworkBehaviour
            renderer.color = color;
         }
     }
+
+
 }

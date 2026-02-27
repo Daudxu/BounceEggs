@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 /// <summary>
 /// 鸡蛋：碰到 Player 时反弹并闪色
@@ -10,9 +11,12 @@ public class Egg : MonoBehaviour
     [Header("Egg settings")]
     [SerializeField] private float bounceVelocity;     // 反弹速度
 
-    [Header("碰撞效果")]
+    [Header("Player Selector")]
     [SerializeField] private Color collisionColor = Color.yellow;  // 碰撞时闪一下的颜色
     [SerializeField] private float flashDuration = 0.2f;           // 闪色持续时间
+     
+    /// <summary>鸡蛋被击中时触发，用于切换玩家回合。</summary>
+    public static event Action onHit;
 
     private Rigidbody2D rig;
     private SpriteRenderer spriteRenderer;  // 子物体 "Egg Renderer" 上的 SpriteRenderer
@@ -45,6 +49,7 @@ public class Egg : MonoBehaviour
                 StartCoroutine(FlashColor());
             // 反弹，沿碰撞法线方向反弹 根据bounceVelocity的速度反弹
             Bounce(other.GetContact(0).normal);
+            onHit?.Invoke();
         }
     }
 

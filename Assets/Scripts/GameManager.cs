@@ -73,10 +73,13 @@ public class GameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// 有客户端连接时的回调：人数达到 2 人时自动开始游戏
+    /// 有客户端连接时的回调：人数达到 2 人时自动开始游戏。
+    /// 排除 Host 连接自己的情况，避免重复触发 StartGame。
     /// </summary>
-    private void Singleton_OnClientConnectedCallback(ulong obj)
+    private void Singleton_OnClientConnectedCallback(ulong clientId)
     {
+        if (clientId == NetworkManager.ServerClientId)
+            return;
         connectedPlayers++;
         if (connectedPlayers >= 2)
         {

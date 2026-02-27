@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: -4001188530116440013}
   - component: {fileID: -8551353536363025700}
   - component: {fileID: -2985263972125477210}
+  - component: {fileID: -2174777923625327077}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -247,7 +248,7 @@ MonoBehaviour:
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
   SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
+  Interpolate: 0
   SlerpPosition: 0
 --- !u!114 &-2985263972125477210
 MonoBehaviour:
@@ -264,4 +265,19 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   renderers:
   - {fileID: 9062993886852060439}
-  color: {r: 0.088113785, g: 1, b: 0, a: 1}
+--- !u!114 &-2174777923625327077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6768026407462804430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d225c343dbf424e9dd094a3f6bf08c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStateManager
+  ShowTopMostFoldoutHeaderGroup: 1
+  renderers:
+  - {fileID: 9062993886852060439}
+  playerCollider: {fileID: 4568218753764576883}
