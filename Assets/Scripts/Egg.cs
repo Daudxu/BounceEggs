@@ -24,6 +24,8 @@ public class Egg : MonoBehaviour
     private SpriteRenderer spriteRenderer;  // 子物体 "Egg Renderer" 上的 SpriteRenderer
     private Color originalColor;            // 原始颜色，用于闪色后恢复
 
+    private float gravityScale;
+
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
@@ -32,7 +34,16 @@ public class Egg : MonoBehaviour
         spriteRenderer = eggRenderer != null ? eggRenderer.GetComponent<SpriteRenderer>() : null;
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
-        isActive = true;   
+        isActive = true;
+        gravityScale = rig.gravityScale;
+        rig.gravityScale = 0;
+        StartCoroutine(WaitAndFall());
+    }
+
+    IEnumerator WaitAndFall()
+    {
+        yield return new WaitForSeconds(2f);
+        rig.gravityScale = gravityScale;
     }
 
     void Update()
@@ -75,8 +86,9 @@ public class Egg : MonoBehaviour
          
          if(Collider.CompareTag("Water"))
          {
-            onFallInWater?.Invoke();
             isActive = false;
+            onFallInWater?.Invoke();
+           
          }
 
     }
@@ -87,5 +99,15 @@ public class Egg : MonoBehaviour
     private void Bounce(Vector2 normal)
     {
         rig.linearVelocity = normal * bounceVelocity;
+    }
+
+    public void Reset()
+    {
+        transform.position = Vector2.up * 5;
+        rig.linearVelocity = Vector2.zero;
+        rig.angularVelocity = 0;
+        rig.gravityScale = 0;
+        isActive = true;
+        StartCoroutine(WaitAndFall());
     }
 }
