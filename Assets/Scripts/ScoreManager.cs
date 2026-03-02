@@ -71,15 +71,50 @@ public class ScoreManager : NetworkBehaviour
     {
         if (hostScore >= 3)
         {
-            
+            HostWin();
         }
         else if (clientScore >= 3)
         {
-
+            ClientWin();
         }
         else
         {
             ReuseEgg();
+        }
+    }
+
+    private void HostWin()
+    {
+        HostWinClientRpc();
+    }
+
+    [ClientRpc]
+    private void HostWinClientRpc()
+    {
+        if(IsServer)
+        {
+            GameManager.Instance.SetGameState(GameManager.State.Win);
+        }
+        else
+        {
+            GameManager.Instance.SetGameState(GameManager.State.Lose);
+        }
+    }
+
+    private void ClientWin()
+    {
+        ClientWinClientRpc();
+    }
+    [ClientRpc]
+    private void ClientWinClientRpc()
+    {
+        if(IsServer)
+        {
+            GameManager.Instance.SetGameState(GameManager.State.Lose);
+        }
+        else
+        {
+            GameManager.Instance.SetGameState(GameManager.State.Win);
         }
     }
 

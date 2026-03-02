@@ -1,6 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
-
+using UnityEngine.SceneManagement;
 /// <summary>
 /// UI 管理器：负责连接面板、等待面板、游戏面板的切换，以及 Host/Client 按钮的网络连接逻辑。
 /// </summary>
@@ -10,6 +10,8 @@ public class UlManager : MonoBehaviour
     [SerializeField] private GameObject connectionPanel;   // 连接面板：显示 Host/Client 按钮
     [SerializeField] private GameObject waitingPanel;   // 等待面板：连接中或等待其他玩家
     [SerializeField] private GameObject gamePanel;      // 游戏面板：主游戏界面
+    [SerializeField] private GameObject winPanel;      // 胜利面板：显示胜利信息
+    [SerializeField] private GameObject losePanel;      // 失败面板：显示失败信息
 
 
     void Start()
@@ -30,6 +32,12 @@ public class UlManager : MonoBehaviour
             case GameManager.State.Game:
                 ShowGamePanel();
                 break;
+            case GameManager.State.Win:
+                ShowWinPanel();
+                break;
+            case GameManager.State.Lose:
+                ShowLosePanel();
+                break;
         }
     }
 
@@ -41,6 +49,18 @@ public class UlManager : MonoBehaviour
         connectionPanel.SetActive(true);
         waitingPanel.SetActive(false);
         gamePanel.SetActive(false);
+        winPanel.SetActive(false);
+        losePanel.SetActive(false);
+    }
+
+    private void ShowWinPanel()
+    {
+        winPanel.SetActive(true);
+    }
+
+    private void ShowLosePanel()
+    {
+        losePanel.SetActive(true);
     }
 
     /// <summary>
@@ -79,5 +99,13 @@ public class UlManager : MonoBehaviour
     {
         NetworkManager.Singleton.StartClient();
         ShowWaitingPanel();
+    }
+
+    public void NextButtonCallback()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        NetworkManager.Singleton.Shutdown();
+        // NetworkManager.Singleton.Shutdown();
+        // ShowConnectionPanel();
     }
 }

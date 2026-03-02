@@ -113,6 +113,12 @@ public class GameManager : NetworkBehaviour
         gameState = State.Menu;
     }
 
+    public void SetGameState(State gameState)
+    {
+        this.gameState = gameState;
+        onGameStateChanged?.Invoke(gameState);
+    }
+
     void Update()
     {
     }
