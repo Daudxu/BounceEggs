@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
+using Unity.Netcode.Transports.UTP;
 /// <summary>
 /// UI 管理器：负责连接面板、等待面板、游戏面板的切换，以及 Host/Client 按钮的网络连接逻辑。
 /// </summary>
@@ -97,6 +98,10 @@ public class UlManager : MonoBehaviour
     /// </summary>
     public void ClientButtonCallback()
     {
+        string ipAddress = IPManager.instance.GetInputIP();
+        UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        utp.SetConnectionData(ipAddress, 7777);
+
         NetworkManager.Singleton.StartClient();
         ShowWaitingPanel();
     }
