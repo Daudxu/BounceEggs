@@ -65,7 +65,7 @@ public class RelayManager : MonoBehaviour
     /// <summary>
     /// 分配 Relay 服务器并获取加入码。返回 (RelayServerData, JoinCode)，调用方负责更新 UI。
     /// </summary>
-    public static async Task<(RelayServerData relayData, string joinCode)> AllocateRelayServerAndGetJoinCode(int maxConnections, string region = null)
+    public async Task<RelayServerData> AllocateRelayServerAndGetJoinCode(int maxConnections, string region = null)
     {
         Allocation allocation;
         string createJoinCode;
@@ -85,6 +85,7 @@ public class RelayManager : MonoBehaviour
         try
         {
             createJoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            joinCodeText.text = createJoinCode;
         }
         catch
         {
@@ -92,8 +93,9 @@ public class RelayManager : MonoBehaviour
             throw;
         }
 
-        return (AllocationUtils.ToRelayServerData(allocation, "dtls"), createJoinCode);
+        return AllocationUtils.ToRelayServerData(allocation, "dtls");
     }
+
 
     public IEnumerator ConfigureTransportAndStartNgoAsHost()
     {
@@ -108,15 +110,15 @@ public class RelayManager : MonoBehaviour
             yield break;
         }
 
-        var (relayData, joinCode) = serverRelayUtilityTask.Result;
-        if (joinCodeText != null)
-            joinCodeText.text = joinCode;
-        RelayJoinCode = joinCode;
+        var relayServerData = serverRelayUtilityTask.Result;
 
-        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayData);
+        // Display the joinCode to the user.
+
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
         NetworkManager.Singleton.StartHost();
         yield return null;
     }
+
 
     public async Task<RelayServerData> JoinRelayServerFromJoinCode(string joinCode)
     {
