@@ -89,7 +89,8 @@ public class UlManager : MonoBehaviour
     /// </summary>
     public void HostButtonCallback()
     {
-        NetworkManager.Singleton.StartHost();
+        // NetworkManager.Singleton.StartHost();
+        RelayManager.instance.StartCoroutine(RelayManager.instance.ConfigureTransportAndStartNgoAsHost());
         ShowWaitingPanel();
     }
 
@@ -98,11 +99,12 @@ public class UlManager : MonoBehaviour
     /// </summary>
     public void ClientButtonCallback()
     {
-        string ipAddress = IPManager.instance.GetInputIP();
-        UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
-        utp.SetConnectionData(ipAddress, 7777);
+        // string ipAddress = IPManager.instance.GetInputIP();
+        // UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        // utp.SetConnectionData(ipAddress, 7777);
 
-        NetworkManager.Singleton.StartClient();
+        // NetworkManager.Singleton.StartClient();
+        RelayManager.instance.StartCoroutine(RelayManager.instance.ConfigureTransportAndStartNgoAsConnectingPlayer());
         ShowWaitingPanel();
     }
 
