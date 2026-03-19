@@ -13,6 +13,7 @@ using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
 using Unity.Networking.Transport;
 using Unity.Services.Lobbies.Http;
+using System.Collections;
 public class MatchmakingManager : MonoBehaviour
 {
     Lobby lobby;
@@ -69,6 +70,16 @@ public class MatchmakingManager : MonoBehaviour
             options.Data = new Dictionary<string, DataObject>{
                 { "_joinCode", new DataObject(DataObject.VisibilityOptions.Public, joinCode)}
             };
+            // StartCoroutine(HeartbeatLobbyCoroutine(lobby.Id, 15));
+            // NetworkManager.Singleton.GetComponent<UnityTransport>().SetClientRelayData(
+            //     allocation.RelayServer.IpV4, 
+            //     (ushort) allocation.RelayServer.Port, 
+            //     allocation.AllocationIdBytes,
+            //     allocation.Key,
+            //     allocation.ConnectionData,
+            //     allocation.HostConnectionData
+            // );
+            NetworkManager.Singleton.StartHost();
             return lobby;
         }catch(Exception e){
             Debug.Log(e);
