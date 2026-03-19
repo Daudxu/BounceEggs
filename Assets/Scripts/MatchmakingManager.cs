@@ -5,9 +5,18 @@ using System;
 using System.Threading.Tasks;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Lobbies;
+using Unity.Services.Relay.Models;
+using Unity.Services.Relay;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
+using Unity.Networking.Transport;
 public class MatchmakingManager : MonoBehaviour
 {
     Lobby lobby;
+
+    [Header("Settings")]
+    [SerializeField] private string _joinCode;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,8 +38,17 @@ public class MatchmakingManager : MonoBehaviour
     private async Task<Lobby> QuickJoinLobby() 
     {
         try{
-            // return await LobbyService.Instance.QuickJoinLobbyAsync();
             Lobby lobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+            JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(lobby.Data["_joinCode"].Value);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetClientRelayData(
+                allocation.RelayServer.IpV4, 
+                (ushort) allocation.RelayServer.Port, 
+                allocation.AllocationIdBytes, 
+                allocation.Key,
+                allocation.ConnectionData,
+                allocation.HostConnectionData
+            );
+            NetworkManager.Singleton.StartClient();
             return lobby;
         }catch(Exception e){
             Debug.Log(e);
