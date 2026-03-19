@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Services.Core;
 using Unity.Services.Authentication;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Lobbies;
@@ -11,6 +12,7 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
 using Unity.Networking.Transport;
+using Unity.Services.Lobbies.Http;
 public class MatchmakingManager : MonoBehaviour
 {
     Lobby lobby;
@@ -58,8 +60,20 @@ public class MatchmakingManager : MonoBehaviour
 
     private async Task<Lobby> CreateLobby()
     {
-        // return await LobbyService.Instance.CreateLobbyAsync();
-          return null;
+        try{
+            int maxPlayers = 2;
+            string lobbyName = "MyCoolLobby";
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxPlayers);
+            string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            CreateLobbyOptions options = new CreateLobbyOptions();
+            options.Data = new Dictionary<string, DataObject>{
+                { "_joinCode", new DataObject(DataObject.VisibilityOptions.Public, joinCode)}
+            };
+            return lobby;
+        }catch(Exception e){
+            Debug.Log(e);
+            return null;
+        }
     }
 
     async Task AuthenticateAsync() 
