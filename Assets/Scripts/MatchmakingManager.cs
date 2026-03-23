@@ -16,11 +16,21 @@ using Unity.Services.Lobbies.Http;
 using System.Collections;
 public class MatchmakingManager : MonoBehaviour
 {
+    public static MatchmakingManager instance;
     Lobby lobby;
 
     [Header("Settings")]
     [SerializeField] private string _joinCode;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+   
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+
     void Start()
     {
         
@@ -70,20 +80,31 @@ public class MatchmakingManager : MonoBehaviour
             options.Data = new Dictionary<string, DataObject>{
                 { "_joinCode", new DataObject(DataObject.VisibilityOptions.Public, joinCode)}
             };
-            // StartCoroutine(HeartbeatLobbyCoroutine(lobby.Id, 15));
-            // NetworkManager.Singleton.GetComponent<UnityTransport>().SetClientRelayData(
-            //     allocation.RelayServer.IpV4, 
-            //     (ushort) allocation.RelayServer.Port, 
-            //     allocation.AllocationIdBytes,
-            //     allocation.Key,
-            //     allocation.ConnectionData,
-            //     allocation.HostConnectionData
-            // );
+            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
+            StartCoroutine(HeartbeatLobbyCoroutine(lobby.Id, 15));
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetHostRelayData(
+                allocation.RelayServer.IpV4, 
+                (ushort) allocation.RelayServer.Port, 
+                allocation.AllocationIdBytes,
+                allocation.Key,
+                allocation.ConnectionData
+            );
             NetworkManager.Singleton.StartHost();
             return lobby;
         }catch(Exception e){
             Debug.Log(e);
             return null;
+        }
+    }
+    IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float WaitForSeconds)
+    {
+        var delay = new WaitForSeconds(WaitForSeconds);
+
+        while(true)
+        {
+            LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
+            yield return delay;
+  
         }
     }
 

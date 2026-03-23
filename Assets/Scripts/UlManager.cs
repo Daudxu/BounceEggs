@@ -115,4 +115,10 @@ public class UlManager : MonoBehaviour
         // NetworkManager.Singleton.Shutdown();
         // ShowConnectionPanel();
     }
+
+    public void PlayButtonCallback()
+    {
+       ShowWaitingPanel();
+       MatchmakingManager.instance.PlayButtonCallback();
+    }
 }

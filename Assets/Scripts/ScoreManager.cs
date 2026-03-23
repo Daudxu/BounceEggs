@@ -10,7 +10,7 @@ public class ScoreManager : NetworkBehaviour
     [Header("Elements")]
     [SerializeField] private TextMeshProUGUI scoreText;  // 分数显示文本
     [SerializeField] private int hostScore;              // Host 分数（绿色）
-    [SerializeField] private int clientScore;             // Client 分数（蓝色）
+    [SerializeField] private int clientScore;            // Client 分数（蓝色）
 
     /// <summary>
     /// 网络对象生成时：订阅服务器启动事件。
