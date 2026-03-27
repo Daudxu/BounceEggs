@@ -11,9 +11,13 @@ public class PlayerController : MonoBehaviour
     private float ClickedScreenX;                  // 按下指针时，指针在屏幕上的 X 坐标
     private float ClickedPlayerX;                  // 按下指针时，玩家在场景中的 X 坐标
     [SerializeField] private float MaxX;
+
+    [Header("Animations")]
+    [SerializeField] private Animator animator;
     void Start()
     {
         Debug.Log("Start");
+        animator.Play("Idle");
     }
 
     void Update()
@@ -70,7 +74,17 @@ public class PlayerController : MonoBehaviour
             newXPosition = Mathf.Clamp(newXPosition, -MaxX, MaxX);
 
             transform.position = new Vector2(newXPosition, transform.position.y);  // 只改 X，Y 不变
+            UpdatePlayerAnimation();    // 更新玩家动画
         }
+        else if(!isPressed)
+        {
+            UpdatePlayerAnimation();    // 更新玩家动画
+        }
+    }
+
+    private void UpdatePlayerAnimation()
+    {
+        animator.Play("run");
     }
 
 }
